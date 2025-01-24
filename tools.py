@@ -4,6 +4,7 @@ import globales
 from huggingface_hub import HfApi
 import bridges
 import sulkuPypi
+import importlib
 
 def theme_selector():
     temas_posibles = [
@@ -176,4 +177,36 @@ def desTuplaResultado(resultado):
             # mensaje = "concurrent.futures._base.CancelledError"
             # concurrents = concurrents + 1
         finally: 
-            pass        
+            pass
+
+def get_mensajes(idioma):
+    """
+    Obtiene el módulo de mensajes correspondiente al idioma especificado.
+
+    Args:
+        idioma (str): Código del idioma (ej: 'es', 'en').
+
+    Returns:
+        module: Módulo de mensajes cargado dinámicamente.
+    """
+    #Primero el módulo normal de mensajes.
+    try:
+        # Intenta cargar el módulo correspondiente
+        module_mensajes = importlib.import_module(f"messages.{idioma}")
+        
+    except ImportError:
+        # Si ocurre un error al importar, carga un módulo por defecto (opcional)
+        print(f"Idioma '{idioma}' no encontrado. Cargando módulo por defecto.")
+        module_mensajes = importlib.import_module("messages.en")  # Por ejemplo, inglés como defecto
+
+    #Y después el módulo de Sulku.
+    try:
+        # Intenta cargar el módulo correspondiente
+        module_sulku = importlib.import_module(f"messages_sulku.{idioma}")
+        
+    except ImportError:
+        # Si ocurre un error al importar, carga un módulo por defecto (opcional)
+        print(f"Idioma '{idioma}' no encontrado. Cargando módulo por defecto.")
+        module_sulku = importlib.import_module("messages_sulku.en")  # Por ejemplo, inglés como defecto 
+    
+    return module_mensajes, module_sulku        

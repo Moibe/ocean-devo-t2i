@@ -7,6 +7,8 @@ import gradio_client
 import time
 import tools
 
+mensajes, sulkuMessages = tools.get_mensajes(globales.mensajes_lang)
+
 btn_buy = gr.Button("Get Credits", visible=False, size='lg')
 
 #PERFORM es la app INTERNA que llamará a la app externa.

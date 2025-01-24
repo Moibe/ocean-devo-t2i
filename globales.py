@@ -1,7 +1,7 @@
 import gradio as gr
 
 #MAIN
-version = "4.9.13"
+version = "5.9.13"
 env = "dev"
 aplicacion = "astroblend-dev"
 
@@ -29,3 +29,6 @@ tema = gr.themes.Default()
 flag = "auto"
 
 #Future: Put age to cookies.
+
+neural_wait = 3
+mensajes_lang = "es"

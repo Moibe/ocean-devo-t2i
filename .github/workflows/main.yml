@@ -1,4 +1,4 @@
-name: Standalone Operations
+name: Text to Image Inference Provider Dev 🐦‍🔥
 
 #Crear una action inicializadora para los pasos de git que solo se ejecutarán la primera vez
 #como inicializar el git y crear el venv.

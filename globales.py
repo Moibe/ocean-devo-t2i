@@ -1,7 +1,7 @@
 import gradio as gr
 
 #MAIN
-version = "1.0.0"
+version = "1.1.0"
 env = "dev"
 aplicacion = "t2i-dev"
 
@@ -20,7 +20,7 @@ process_cost = 90 #Expresado en segundos para que los deduzca de la quota.
 seto = "txt2image"
 work = "picswap"
 app_path = "/t2i"
-server_port=7860
+server_port=1111
 #tema = tools.theme_selector()
 tema = gr.themes.Default()
 flag = "never"

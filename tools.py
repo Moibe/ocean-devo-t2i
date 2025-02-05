@@ -15,7 +15,7 @@ def theme_selector():
         gr.themes.Soft()
     ]
     tema = random.choice(temas_posibles)
-    print("Tema random: ", tema)
+    #print("Tema random: ", tema)
     return tema
 
 def eligeAPI(opcion):
@@ -27,7 +27,7 @@ def eligeAPI(opcion):
     }
     
     if opcion in funciones:
-        print("Opción en Funciones")
+        #print("Opción en Funciones")
         funcion_elegida = funciones[opcion]
         api, tipo_api = funcion_elegida()
     else:
@@ -65,8 +65,9 @@ def eligeQuotaOCosto():
         #Además Si el resultado puede usar la Zero "por última vez", debe de ir prendiendo la otra.
         #if diferencia es menor que el costo de un sig.  del proceso, ve iniciando ya la otra API.
         if diferencia < globales.process_cost:
-            print("Preventivamente iremos prendiendo la otra.")
-            initAPI(globales.api_cost) 
+            pass
+            #print("Preventivamente iremos prendiendo la otra.") #Cuando tenemos una inferencia, ya no hay 2daAPI preventiva.
+            #initAPI(globales.api_cost) 
     else:
         api, tipo_api = globales.api_cost
 
@@ -97,7 +98,7 @@ def initAPI(api):
     return result_from_initAPI
 
 def titulizaExcepDeAPI(e):   
-    print("El e recibido por tituliza es: ", e) 
+    #print("El e recibido por tituliza es: ", e) 
      #Resume una excepción a un título manejable.
     if "RUNTIME_ERROR" in str(e):
         resultado = "RUNTIME_ERROR" #api mal construida tiene error.
@@ -140,30 +141,26 @@ def recortadorQuota(texto_quota):
         nuevo_mensaje = "Your quota is exceeded, try again in few hours please."
         return nuevo_mensaje
     else:
-        print("El recorte quedó: ")
+        #print("El recorte quedó: ")
         print(subcadena)
     
     return subcadena
 
 #En gradio-standalone no se usa, pero el destuplador podría servir para otras apps que salgan de ésta app general. 
 def desTuplaResultado(resultado):
+
     #Procesa la tupla recibida y la convierte ya sea en imagen(path) o error(string)       
     if isinstance(resultado, tuple):
-
-        print("El resultado fue una tupla, ésta tupla:")
-        print(resultado)
         ruta_imagen_local = resultado[0]
-        print("Ésto es resultado ruta imagen local: ", ruta_imagen_local)
         return ruta_imagen_local        
 
     #NO PROCESO CORRECTAMENTE NO GENERA UNA TUPLA.
     #CORRIGE IMPORTANTE: QUE NO SE SALGA DEL CICLO DE ESA IMAGEN AL ENCONTRAR ERROR.
     else:
-        #NO ES UNA TUPLA:
-        print("El tipo del resultado cuando no fue una tupla es: ", type(resultado))                
+        #NO ES UNA TUPLA:                     
         texto = str(resultado)
         segmentado = texto.split('exception:')
-        print("Segmentado es una posible causa de error, analiza segmentado es: ", segmentado)
+        #print("Segmentado es una posible causa de error, analiza segmentado es: ", segmentado)
         #FUTURE: Agregar que si tuvo problemas con la imagen de referencia, agregue en un 
         #Log de errores porque ya no lo hará en el excel, porque le dará la oportunidad con otra 
         #imagen de posición.

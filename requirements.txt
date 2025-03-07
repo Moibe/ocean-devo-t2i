@@ -4,3 +4,4 @@ gradio_client
 python-cryptography-fernet-wrapper
 huggingface_hub
 Pillow
+firebase_admin

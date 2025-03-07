@@ -5,3 +5,4 @@ bridges.py
 /.gradio/
 /flagged/
 **/__pycache__/
+config.json

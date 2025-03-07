@@ -9,11 +9,10 @@ import gradio as gr
 def iniciar():    
     app_path = globales.app_path
     main.queue(max_size=globales.max_size)
-    main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
-
-# def welcome(name):
-#     #raise gr.Error("Entré a Welcome!")
-#     return f"Welcome to Gradio!"
+    #Con autorizador
+    #main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
+    #Paso directo 
+    main.launch(root_path=app_path, server_port=globales.server_port)
     
 #INTERFAZ
 #Credit Related Elements

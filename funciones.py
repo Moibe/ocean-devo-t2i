@@ -9,6 +9,7 @@ import tools
 from huggingface_hub import InferenceClient
 import random
 from PIL import Image
+import fireWhale
 
 mensajes, sulkuMessages = tools.get_mensajes(globales.mensajes_lang)
 
@@ -17,10 +18,12 @@ btn_buy = gr.Button("Get Credits", visible=False, size='lg')
 #PERFORM es la app INTERNA que llamará a la app externa.
 def perform(input1, request: gr.Request):
 
-    #Future: Maneja una excepción para el concurrent.futures._base.CancelledError
-    #Future: Que no se vea el resultado anterior al cargar el nuevo resultado! (aunque solo se ven los resultados propios.)         
+    if globales.acceso == "login": 
+        usuario = request.username
+    else:        
+        usuario = globales.usuario     
 
-    tokens = sulkuPypi.getTokens(sulkuPypi.encripta(request.username).decode("utf-8"), globales.env)
+    tokens = fireWhale.obtenDato('usuarios', usuario, 'tokens')
     
     #1: Reglas sobre autorización si se tiene el crédito suficiente.
     autorizacion = sulkuPypi.authorize(tokens, globales.work)
@@ -29,19 +32,19 @@ def perform(input1, request: gr.Request):
             resultado = mass(input1)
         except Exception as e:
             print("Éste es el except de perform...")            
-            info_window, resultado, html_credits = sulkuFront.aError(request.username, tokens, excepcion = tools.titulizaExcepDeAPI(e))
+            info_window, resultado, html_credits = sulkuFront.aError(usuario, tokens, excepcion = tools.titulizaExcepDeAPI(e))
             return resultado, info_window, html_credits, btn_buy
     else:
-        info_window, resultado, html_credits = sulkuFront.noCredit(request.username)
+        info_window, resultado, html_credits = sulkuFront.noCredit(usuario)
         return resultado, info_window, html_credits, btn_buy 
 
     #Primero revisa si es imagen!: 
     if isinstance(resultado, Image.Image) or "image.webp" in str(resultado):
         #Si es imagen, debitarás.
-        html_credits, info_window = sulkuFront.presentacionFinal(request.username, "debita")
+        html_credits, info_window = sulkuFront.presentacionFinal(usuario, "debita")
     else: 
         #Si no es imagen es un texto que nos dice algo.
-        info_window, resultado, html_credits = sulkuFront.aError(request.username, tokens, excepcion = tools.titulizaExcepDeAPI(resultado))
+        info_window, resultado, html_credits = sulkuFront.aError(usuario, tokens, excepcion = tools.titulizaExcepDeAPI(resultado))
         return resultado, info_window, html_credits, btn_buy      
             
     #Lo que se le regresa oficialmente al entorno.
@@ -63,7 +66,6 @@ def mass(input1): #IMPORTANTE: Cuando estás entre Inferencia o API, en MASS es 
         
         try: 
             image = client.text_to_image(
-            #"A tall rubber rooster dressed with cowboy hat, a winter jacket with the name 'Gallo' written on it, boots and an axe, standing besides a bunch of stacked wood logs.",
             input1,
             model="black-forest-labs/FLUX.1-dev",
             #seed=42, #default varía pero el default es que siempre sea la misma.
@@ -101,8 +103,11 @@ def mass(input1): #IMPORTANTE: Cuando estás entre Inferencia o API, en MASS es 
             #(Si llega aquí, debes debitar de la quota, incluso si detecto no-face o algo.)
             if tipo_api == "quota": #IMPORTANTE: En inferencia llamaremos quota a la quota de inferencia que tenemos.
                 #print("Como el tipo api fue gratis, si debitaremos la quota.")
-                sulkuPypi.updateQuota(globales.process_cost)
-                #No debitas la cuota si no era gratis, solo aplica para Zero.   
+                quota_actual = fireWhale.obtenDato("quota", "quota", "segundos")
+                print("La quota actual que hay es: ", quota_actual)
+                quota_nueva = quota_actual - globales.process_cost
+                print("La quota nueva es: ", quota_nueva)
+                fireWhale.editaDato("quota", "quota", "segundos", quota_nueva)
                 
             result = tools.desTuplaResultado(result)
             return result 

@@ -1,7 +1,7 @@
 import gradio as gr
 
 #MAIN
-version = "1.1.0"
+version = "2.1.0"
 env = "dev"
 aplicacion = "t2i-dev"
 
@@ -19,6 +19,7 @@ interface_api_name = "/predict" #El endpoint al que llamará client.
 process_cost = 90 #Expresado en segundos para que los deduzca de la quota.
 seto = "txt2image"
 work = "picswap"
+costo_work = 1 #Se integró costo_work para definir aquí directamente lo que cueta picswap, y dejar de usar la var work.
 app_path = "/t2i"
 server_port=1111
 #tema = tools.theme_selector()
@@ -29,3 +30,6 @@ flag = "never"
 
 neural_wait = 3
 mensajes_lang = "es"
+
+acceso = "metrado"  #login, metrado o libre, login para medición y acceso normal, metrado para no usar login pero si medir los créditos, para eso se utilizará el parámetro global de usuario, y libre no tiene login ni metrado.
+usuario = "ella"

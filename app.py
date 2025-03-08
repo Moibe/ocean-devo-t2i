@@ -10,13 +10,13 @@ def iniciar():
     app_path = globales.app_path
     main.queue(max_size=globales.max_size)
     #Con autorizador
-    #main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
+    main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
     #Paso directo 
-    main.launch(root_path=app_path, server_port=globales.server_port)
+    #main.launch(root_path=app_path, server_port=globales.server_port)
     
 #INTERFAZ
 #Credit Related Elements
-html_credits = gr.HTML(visible=True)
+html_credits = gr.HTML(visible=globales.credits_visibility)
 lbl_console = gr.Label(label="AI Terminal " + globales.version +  " messages", container=True)
 btn_buy = gr.Button("Get Credits", visible=False, size='lg')
 
@@ -38,7 +38,5 @@ with gr.Blocks(theme=globales.tema, css="footer {visibility: hidden}") as main:
                 )
         except Exception as e:
             print("Interface error...") #Checar si alguna vez entra.
-
-    #result.change(welcome, result, lbl_console)    
         
 iniciar()

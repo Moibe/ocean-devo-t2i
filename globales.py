@@ -1,7 +1,7 @@
 import gradio as gr
 
 #MAIN
-version = "2.1.0"
+version = "2.1.1"
 env = "dev"
 aplicacion = "t2i-dev"
 
@@ -31,5 +31,7 @@ flag = "never"
 neural_wait = 3
 mensajes_lang = "es"
 
-acceso = "metrado"  #login, metrado o libre, login para medición y acceso normal, metrado para no usar login pero si medir los créditos, para eso se utilizará el parámetro global de usuario, y libre no tiene login ni metrado.
+#Access related
+acceso = "login"  #login, metrado o libre, login para medición y acceso normal, metrado para no usar login pero si medir los créditos, para eso se utilizará el parámetro global de usuario, y libre no tiene login ni metrado.
 usuario = "ella"
+credits_visibility = True

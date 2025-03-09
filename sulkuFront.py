@@ -1,6 +1,5 @@
 import time
 import globales
-import sulkuPypi
 import gradio as gr
 import threading
 import tools
@@ -99,16 +98,17 @@ def manejadorExcepciones(excepcion):
     return info_window
 
 def presentacionFinal(usuario, accion):
-        
-    #capsule = sulkuPypi.encripta(usuario).decode("utf-8") #decode es para quitarle el 'b
     
     if accion == "debita":        
         tokens = fireWhale.obtenDato('usuarios', usuario, 'tokens') #obtienes
-        print(f"Antes de debitar tienes {tokens} tokens.")
         tokens = tokens - globales.costo_work #debitas
         fireWhale.editaDato('usuarios', usuario, 'tokens', tokens) #editas
         print(f"Después de debitar tienes {tokens} tokens.")
-        info_window = sulkuMessages.result_ok       
+        info_window = sulkuMessages.result_ok
+    elif accion == "no-debitar": #Aquí llega si está en modo libre.
+        print("Llegué a la parte en donde no debita...")
+        info_window = sulkuMessages.result_ok
+        tokens = "Free"        
     else: 
         info_window = "No face in source path detected."
         tokens = fireWhale.obtenDato('usuarios', usuario, 'tokens') #obtienes

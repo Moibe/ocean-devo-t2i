@@ -1,15 +1,13 @@
+import tools
 import bridges
 import globales
 import sulkuPypi
+import fireWhale
 import sulkuFront
 import gradio as gr
 import gradio_client
-import time
-import tools
-from huggingface_hub import InferenceClient
-import random
 from PIL import Image
-import fireWhale
+from huggingface_hub import InferenceClient
 
 mensajes, sulkuMessages = tools.get_mensajes(globales.mensajes_lang)
 
@@ -41,7 +39,8 @@ def perform(input1, request: gr.Request):
     #Primero revisa si es imagen!: 
     if isinstance(resultado, Image.Image) or "image.webp" in str(resultado):
         #Si es imagen, debitarás.
-        html_credits, info_window = sulkuFront.presentacionFinal(usuario, "debita")
+        accion = "no-debitar" if globales.acceso == "libre" else "debita"
+        html_credits, info_window = sulkuFront.presentacionFinal(usuario, accion)
     else: 
         #Si no es imagen es un texto que nos dice algo.
         info_window, resultado, html_credits = sulkuFront.aError(usuario, tokens, excepcion = tools.titulizaExcepDeAPI(resultado))
@@ -56,7 +55,6 @@ def mass(input1): #IMPORTANTE: Cuando estás entre Inferencia o API, en MASS es 
     api, tipo_api = tools.eligeAPI(globales.seleccion_api)
     
     #Si tipo API es inferencia ve directo a las nuevas formas de Inferencia.
-
     if tipo_api == "inferencia": 
 
         client = InferenceClient(

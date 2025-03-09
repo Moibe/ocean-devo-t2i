@@ -1,4 +1,3 @@
-import time
 import inputs
 import globales
 import funciones
@@ -10,9 +9,9 @@ def iniciar():
     app_path = globales.app_path
     main.queue(max_size=globales.max_size)
     #Con autorizador
-    main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
+    #main.launch(auth=autorizador.authenticate, root_path=app_path, server_port=globales.server_port)
     #Paso directo 
-    #main.launch(root_path=app_path, server_port=globales.server_port)
+    main.launch(root_path=app_path, server_port=globales.server_port)
     
 #INTERFAZ
 #Credit Related Elements
@@ -26,7 +25,7 @@ input1, result = inputs.inputs_selector(globales.seto)
 
 with gr.Blocks(theme=globales.tema, css="footer {visibility: hidden}") as main:   
     #Cargado en Load: Función, input, output
-    main.load(sulkuFront.precarga, None, html_credits) 
+    main.load(sulkuFront.precarga, None, html_credits) if globales.acceso != "libre" else None
    
     with gr.Row():
         try:

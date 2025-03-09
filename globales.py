@@ -1,7 +1,7 @@
 import gradio as gr
 
 #MAIN
-version = "2.1.1"
+version = "2.2.1"
 env = "dev"
 aplicacion = "t2i-dev"
 
@@ -26,12 +26,11 @@ server_port=1111
 tema = gr.themes.Default()
 flag = "never"
 
-#Future: Put age to cookies.
-
 neural_wait = 3
 mensajes_lang = "es"
 
 #Access related
-acceso = "login"  #login, metrado o libre, login para medición y acceso normal, metrado para no usar login pero si medir los créditos, para eso se utilizará el parámetro global de usuario, y libre no tiene login ni metrado.
+acceso = "libre"  #login, metrado o libre, login para medición y acceso normal, metrado para no usar login pero si medir los créditos, para eso se utilizará el parámetro global de usuario, y libre no tiene login ni metrado.
+#Recuerda que si el acceso es login, entonces en app debe estar seleccionada la opción de usar auth.
 usuario = "ella"
-credits_visibility = True
+credits_visibility = False
